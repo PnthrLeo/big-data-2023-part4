@@ -161,3 +161,6 @@ cython_debug/
 
 # Ignore data folder
 data
+
+# Ignore experiments folder
+experiments

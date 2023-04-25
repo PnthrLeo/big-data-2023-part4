@@ -1,0 +1,24 @@
+{
+    "data": {
+        "target_name": "Type",
+        "feature_names": [],
+        "dtypes": {
+            "Type": "int",
+            "Area": "float",
+            "Perimeter": "float",
+            "Compactness": "float",
+            "Kernel.Length": "float",
+            "Kernel.Width": "float",
+            "Asymmetry.Coeff": "float",
+            "Kernel.Groove": "float"
+        }
+    },
+    "model": {
+        "name": "RandomForestClassifier",
+        "hyperparameters": {
+            "n_estimators": 100,
+            "max_depth": 2,
+            "random_state": 42
+        }
+    }
+}
