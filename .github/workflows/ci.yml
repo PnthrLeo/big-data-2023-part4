@@ -32,4 +32,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: olegggatttor/ml-pipe-bike-sharing:latest
+          tags: pnthrleo/mle-template:latest
