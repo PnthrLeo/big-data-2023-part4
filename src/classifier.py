@@ -1,39 +1,37 @@
 # Modified from: https://github.com/Danielto1404/mle-template/blob/main/src/train.py
-import json
-import pandas as pd
-import numpy as np
-import logging
-import pickle
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import f1_score
 import argparse
-
-from typing import Tuple
-from utils import preprocess, get_X_y, split_for_validation
+import json
+import logging
 import os
+import pickle
+from typing import Tuple
 
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import f1_score
+from sklearn.tree import DecisionTreeClassifier
 
-with open("config.json") as f:
-    config = json.load(f)
+from utils import get_X_y, preprocess, split_for_validation
 
 
 class Classifier:
-    def __init__(self, train_path: str, test_path: str):
-        self.model = self.init_model()
+    def __init__(self, train_path: str, test_path: str, config: dict):
         self.train_path = train_path
         self.test_path = test_path
+        self.config = config
         self.feature_names = None
+        self.model = self.init_model()
     
     def init_model(self):
-        supported_models = ["LogisticRegression", "RandomForestClassifier", "DecisionTreeClassifier"]
-        if config['model']['name'] not in supported_models:
-            raise ValueError(f"Model {config['model']['name']} is not supported")
+        supported_models = ["RandomForestClassifier", "DecisionTreeClassifier"]
+        if self.config['model']['name'] not in supported_models:
+            raise ValueError(f"Model {self.config['model']['name']} is not supported")
 
-        elif config['model']['name'] == "RandomForestClassifier":
-            return RandomForestClassifier(**config['model']['hyperparameters'])
-        elif config['model']['name'] == "DecisionTreeClassifier":
-            return DecisionTreeClassifier(**config['model']['hyperparameters'])
+        elif self.config['model']['name'] == "RandomForestClassifier":
+            return RandomForestClassifier(**self.config['model']['hyperparameters'])
+        elif self.config['model']['name'] == "DecisionTreeClassifier":
+            return DecisionTreeClassifier(**self.config['model']['hyperparameters'])
 
     def get_train(self) -> pd.DataFrame:
         """Returns train data as pandas DataFrame
@@ -109,13 +107,16 @@ if __name__ == "__main__":
     
     if args.train is None and args.test is None:
         raise ValueError("Train and test paths are not provided")
+    
+    with open("config.json") as f:
+        config = json.load(f)
 
     if args.from_ckpt and args.train is None:
         classifier = Classifier.load(args.ckpt_path)
         classifier.train_path = args.train
         classifier.test_path = args.test
     elif not args.from_ckpt and args.train is not None:
-        classifier = Classifier(args.train, args.test)
+        classifier = Classifier(args.train, args.test, config)
         train_f1, valid_f1 = classifier.fit(use_validation=True)
 
         logging.info(f"Train F1 {train_f1} | Valid F1 {valid_f1}")
