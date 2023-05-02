@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+   web:
+       build: .
+       command: bash -c "python src/classifier.py --train data/train.csv --test data/test.csv --exp_name test1 && pytest --html=experiments/unit_test/pytest_report.html"
+       ports:
+           - 8000:8000
+       image: pnthrleo/mle-template:latest
