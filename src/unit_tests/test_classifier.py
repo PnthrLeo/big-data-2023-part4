@@ -2,14 +2,15 @@ import sys
 
 sys.path.insert(0, './src')
 
-import pytest
 import json
-import pandas as pd
 import os
 
-from classifier import Classifier
+import pandas as pd
+import pytest
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
+
+from classifier import Classifier
 from utils import get_X_y
 
 
