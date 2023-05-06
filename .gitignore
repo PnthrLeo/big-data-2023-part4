@@ -161,3 +161,15 @@ cython_debug/
 
 # Ignore assets for pytest-html
 assets
+
+# Ignore .vscode config
+.vscode
+
+# Ignore database/storage folder
+/database/storage
+
+# Ignore data folder
+/data
+
+# Ignore experiments folder
+/experiments
