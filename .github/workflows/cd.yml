@@ -26,10 +26,10 @@ jobs:
         name: Run database
         run: docker compose -f database/docker-compose.yaml up -d
       -
-        name: Sleep for 60 seconds
+        name: Sleep for 120 seconds
         uses: jakejarvis/wait-action@master
         with:
-          time: '60s'
+          time: '120s'
       -
         name: Run tests
         run: docker-compose up --abort-on-container-exit
