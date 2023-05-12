@@ -12,7 +12,7 @@ import pytest
 from utils import (dropna, get_X_y, preprocess, set_right_dtypes,
                    split_for_validation)
 
-with open("config.json") as f:
+with open("tests/fixtures/app_config.json") as f:
     config = json.load(f)
     
 

@@ -2,7 +2,22 @@ version: '3.8'
 services:
    web:
        build: .
-       command: bash -c "python src/classifier.py --train data/train.csv --test data/test.csv --exp_name test1 && pytest --html=experiments/unit_test/pytest_report.html"
+       command: bash -c "./decrypt_secrets.sh &&
+                         pytest tests/unit_tests --html=experiments/unit_test/unit_tests_report.html &&
+                         pytest tests/integration_tests --html=experiments/unit_test/integration_tests_report.html &&
+                         python database/database.py --save --save_table_name train --save_csv_path data/train.csv &&
+                         python database/database.py --save --save_table_name test --save_csv_path data/test.csv &&
+                         python database/database.py --save --save_table_name predict --save_csv_path data/predict.csv &&
+                         python database/database.py --load --load_table_name train --load_csv_path data/new_train.csv &&
+                         python database/database.py --load --load_table_name test --load_csv_path data/new_test.csv &&
+                         python database/database.py --load --load_table_name predict --load_csv_path data/new_predict.csv &&
+                         python src/classifier.py --train data/new_train.csv --test data/new_test.csv --predict data/new_predict.csv --exp_name test1 &&
+                         python database/database.py --delete --delete_table_name predict --save --save_table_name predict
+                         --save_csv_path experiments/test1/predict_preds.csv"
+       environment:
+           - PGP_PUBLIC_KEY=${PGP_PUBLIC_KEY}
+           - PGP_PRIVATE_KEY=${PGP_PRIVATE_KEY}
        ports:
            - 8000:8000
+       network_mode: "host"
        image: pnthrleo/mle-template:latest

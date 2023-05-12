@@ -74,15 +74,22 @@ class Classifier:
         y_pred = self.model.predict(X)
         return f1_score(y, y_pred, average="macro")
 
-    def predict(self, df: pd.DataFrame) -> np.ndarray:
+    def predict(self, df: pd.DataFrame, is_target_provided: bool = False) -> np.ndarray:
         """
         Predicts on data
         :param df: DataFrame - data to predict on
-        :return: DataFrame - predictions
+        :param is_target_provided: bool - whether target is provided
+        :return: DataFrame, float - predictions, f1 score
         """
-        df = preprocess(df)
-        df = df[self.feature_names]
-        return self.model.predict(df)
+        if not is_target_provided:
+            df = preprocess(df)
+            df = df[self.feature_names]
+            return self.model.predict(df), None
+        else:
+            df = preprocess(df)
+            X, y = get_X_y(df)
+            X = X[self.feature_names]
+            return self.model.predict(X), self.evaluate(X, y)
 
     def save(self, cls_path: str):
         with open(cls_path, 'wb') as f:
@@ -98,6 +105,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="Classifier")
     parser.add_argument("--train", default=None)
     parser.add_argument("--test", default=None)
+    parser.add_argument("--predict", default=None)
     parser.add_argument("--from_ckpt", action=argparse.BooleanOptionalAction, default=False)
     parser.add_argument("--ckpt_path", default=None)
     parser.add_argument("--exp_name", required=True)
@@ -105,15 +113,17 @@ if __name__ == "__main__":
     
     logging.basicConfig(filename=f"experiments/{args.exp_name}/run.log", encoding='utf-8', level=logging.DEBUG)
     
-    if args.train is None and args.test is None:
+    if args.train is None and args.test is None and args.predict is None:
         raise ValueError("Train and test paths are not provided")
+    
+    if args.from_ckpt and args.train is not None:
+        raise ValueError("Train path is provided but from_ckpt is True")
     
     with open("config.json") as f:
         config = json.load(f)
 
-    if args.from_ckpt and args.train is None:
+    if args.from_ckpt:
         classifier = Classifier.load(args.ckpt_path)
-        classifier.train_path = args.train
         classifier.test_path = args.test
     elif not args.from_ckpt and args.train is not None:
         classifier = Classifier(args.train, args.test, config)
@@ -125,6 +135,14 @@ if __name__ == "__main__":
         classifier.save(model_save_path)
     
     if args.test is not None:
-        labels = classifier.predict(classifier.get_test())
+        test_df = classifier.get_test()
+        test_df['Type'], test_f1 = classifier.predict(test_df, is_target_provided=True)
+        logging.info(f"Test F1 {test_f1}")
         test_preds_path = f"experiments/{args.exp_name}/test_preds.csv"
-        pd.DataFrame({"label": labels}).to_csv(test_preds_path, header=True, index=False)
+        test_df.to_csv(test_preds_path, header=True, index=False)
+    
+    if args.predict is not None:
+        predict_df = pd.read_csv(args.predict)
+        predict_df['Type'], _ = classifier.predict(predict_df, is_target_provided=False)
+        predict_preds_path = f"experiments/{args.exp_name}/predict_preds.csv"
+        predict_df.to_csv(predict_preds_path, header=True, index=False)

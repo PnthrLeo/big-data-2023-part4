@@ -16,7 +16,7 @@ from utils import get_X_y
 
 @pytest.fixture  
 def config():
-    with open("config.json") as f:
+    with open("tests/fixtures/app_config.json") as f:
         config = json.load(f)
     return config
 
@@ -29,8 +29,8 @@ def test_init_model(config):
             'random_state': 42
     }
     
-    train_path = './data/train.csv'
-    test_path = './data/test.csv'
+    train_path = 'tests/fixtures/train.csv'
+    test_path = 'tests/fixtures/test.csv'
     clf = Classifier(train_path=train_path, test_path=test_path, config=config)
     assert(type(clf.model) == RandomForestClassifier)
     
@@ -41,8 +41,8 @@ def test_init_model(config):
             'max_depth': 100
     }
     
-    train_path = './data/train.csv'
-    test_path = './data/test.csv'
+    train_path = 'tests/fixtures/train.csv'
+    test_path = 'tests/fixtures/test.csv'
     clf = Classifier(train_path=train_path, test_path=test_path, config=config)
     assert(type(clf.model) == DecisionTreeClassifier)
     
@@ -55,8 +55,8 @@ def test_get_train_test(config):
             'random_state': 42
     }
     
-    train_path = './data/train.csv'
-    test_path = './data/test.csv'
+    train_path = 'tests/fixtures/train.csv'
+    test_path = 'tests/fixtures/test.csv'
     clf = Classifier(train_path=train_path, test_path=test_path, config=config)
     
     train_df = clf.get_train()
@@ -79,8 +79,8 @@ def test_fit(config):
             'random_state': 42
     }
     
-    train_path = './data/train.csv'
-    test_path = './data/test.csv'
+    train_path = 'tests/fixtures/train.csv'
+    test_path = 'tests/fixtures/test.csv'
     clf = Classifier(train_path=train_path, test_path=test_path, config=config)
     train_f1, val_f1 = clf.fit(use_validation=False)
     assert(train_f1 == 0.9321896874691905)
@@ -99,13 +99,13 @@ def test_predict(config):
             'random_state': 42
     }
     
-    train_path = './data/train.csv'
-    test_path = './data/test.csv'
+    train_path = 'tests/fixtures/train.csv'
+    test_path = 'tests/fixtures/test.csv'
     clf = Classifier(train_path=train_path, test_path=test_path, config=config)
     clf.fit(use_validation=False)
     
     mini_test_df = clf.get_test()[:3]
-    y_pred = clf.predict(mini_test_df)
+    y_pred, _ = clf.predict(mini_test_df)
     assert((y_pred == [2, 1, 2]).all())
 
 
@@ -117,8 +117,8 @@ def test_evaluate(config):
             'random_state': 42
     }
     
-    train_path = './data/train.csv'
-    test_path = './data/test.csv'
+    train_path = 'tests/fixtures/train.csv'
+    test_path = 'tests/fixtures/test.csv'
     clf = Classifier(train_path=train_path, test_path=test_path, config=config)
     clf.fit(use_validation=False)
     
@@ -136,8 +136,8 @@ def test_save_load(config):
             'random_state': 42
     }
     
-    train_path = './data/train.csv'
-    test_path = './data/test.csv'
+    train_path = 'tests/fixtures/train.csv'
+    test_path = 'tests/fixtures/test.csv'
     model_save_path = './experiments/unit_test/model.pkl'
     os.makedirs(f"./experiments/unit_test", exist_ok=True)
     
