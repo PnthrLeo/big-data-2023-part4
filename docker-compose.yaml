@@ -17,7 +17,5 @@ services:
        environment:
            - PGP_PUBLIC_KEY=${PGP_PUBLIC_KEY}
            - PGP_PRIVATE_KEY=${PGP_PRIVATE_KEY}
-       ports:
-           - 8000:8000
        network_mode: "host"
        image: pnthrleo/mle-template:latest
