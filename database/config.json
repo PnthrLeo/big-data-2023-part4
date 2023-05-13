@@ -1,7 +1,25 @@
 {
-	"db_ip": "0.0.0.0",
-	"db_port": 9042,
-	"db_name": "seeds",
-	"db_user": "pnthrleo",
-	"db_password": "gigachad_na_meste"
+	"db_ip": "ENC[AES256_GCM,data:n9jY1CG5XQ==,iv:pWC/erOgvm64ppDYgnK71sR5PdvCiqGBp6GOdEFol8M=,tag:EUvv34AV4Zb+tRmwrpWfiA==,type:str]",
+	"db_port": "ENC[AES256_GCM,data:ePG5jg==,iv:GRT4CaqJNoleKELuV5vA+8COvPf291sGD1DLZwSNwB8=,tag:hHVe81GXuB6zidBigh0Kxg==,type:float]",
+	"db_name": "ENC[AES256_GCM,data:q/E/omE=,iv:DLcPjKhSwbayzVv0KBUJNkc4A7mWOMe8SRQKPr2T9c4=,tag:FuzvfU/dent5S4Fk+O4SNw==,type:str]",
+	"db_user": "ENC[AES256_GCM,data:8gDh8hMD7aA=,iv:MylB8lV4/6F89hcUJb4QeBxruv7IBTZHaHJXong34Ww=,tag:tmpwqnDXR440iZuf9CBhLQ==,type:str]",
+	"db_password": "ENC[AES256_GCM,data:ZDc7jFvil5XDk5oNXJG5yLI=,iv:XzVjB3EmoVYKBk5zkMn0umyn44PWWnrodjT36UmsD5o=,tag:+a/Axp2Fo6sXpHWsGm/8BA==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": null,
+		"azure_kv": null,
+		"hc_vault": null,
+		"age": null,
+		"lastmodified": "2023-05-13T17:16:48Z",
+		"mac": "ENC[AES256_GCM,data:NTfUHKrkfQOwuX0I18YYwKUFiGHLXN2clvzEaVOwU9Co2b20Nqr2OsbtYZ8OspBpLFqMpom1blV6iXrqX0b1OHkSk6OxLX+V/9h0484rIzKPUV7Ooxb01y8Jv6DGTccavBeAZRpls/IiPL/432LTGpWa6AS3kLdzU0hE2iJ6GS4=,iv:3/M9LqKFSfFREXm0yyqTR3f7DO2gkm2DVeobOr67iUQ=,tag:NNGvbA8ii/Yc1sxUXJSBUw==,type:str]",
+		"pgp": [
+			{
+				"created_at": "2023-05-13T17:16:44Z",
+				"enc": "-----BEGIN PGP MESSAGE-----\n\nhQGMA10MHcK4xhlkAQv/YPpLpcJyP9jR5zxxv8VQVB5WZWRGNmO9kxp0d97P4Lua\n4+wbv1jmwL+cQmjVZwemJxDjrat1Jina+3LXPt3Scfrhv7S9hCifTUfMfCXiCnOe\n88Q8WA2NhVJsQf6C2Ufy/Dd2vh9nrg4OiN+mim7G1GG/PPRgXvkmhDKXOouWSFMp\nLebUoWAD0/kBolxrqioEScTxzyWWvTgQeMQ6nUVSgICTOBg4t9uIfgl+VzNFJlyY\n023zZ2IpTTnj7YA8JaF3uhWeI/pfD1OCPgyJNZApAsumC3iDtE+DxGttev2Cu8ql\n9YIBmz+e+tz7UrUFB1H+UZN9XUpEQo31FXhgnDaItw87wJ++CXljcfByJ9IBZffP\nUfN1GN7TeqY7LVzqqXhjZJxcKq4jifMHkOIvxODGEIb8RDrA0VQkeCP/sz8QxiCL\n+4OGfC+7O9uGni1bA9mMu6zfre2QQ9W3T/RXJaJalsOuM1x176xo01ZDzgES9XnJ\njollfSbpsR7PMFh/0T700l4BXMMglMQacCDkPGAl2zIj/ItEDqEqUs7uRiZ9SDLT\nroDM6ee6c923lzWKztZltfNR64iqGds/xQa4loQ4hGAAXkyTqKMEZTiVwp8ZaBc/\n+gOthk3i88TeFjyEDk8/\n=/ypp\n-----END PGP MESSAGE-----\n",
+				"fp": "BE2947EA8D37BB54B58E1FBB5665E2BC64F9A032"
+			}
+		],
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.7.3"
+	}
 }
