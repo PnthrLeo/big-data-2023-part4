@@ -11,11 +11,11 @@ from cassandra.policies import WhiteListRoundRobinPolicy
 
 class Database:
     def __init__(self, config: dict):
-        profile = ExecutionProfile(load_balancing_policy=WhiteListRoundRobinPolicy(['0.0.0.0']))
+        profile = ExecutionProfile(load_balancing_policy=WhiteListRoundRobinPolicy([config['db_ip']]))
         
         try:
             ap = PlainTextAuthProvider(username='cassandra', password='cassandra')
-            cluster = Cluster(port=9042, auth_provider=ap, execution_profiles={'default': profile})
+            cluster = Cluster(port=config['db_port'], auth_provider=ap, execution_profiles={'default': profile})
             session = cluster.connect()
 
             session.execute(f"""CREATE ROLE IF NOT EXISTS {config['db_user']}
@@ -28,7 +28,7 @@ class Database:
 
         ap = PlainTextAuthProvider(
             username=config['db_user'], password=config['db_password'])
-        cluster = Cluster(port=9042, auth_provider=ap, execution_profiles={'default': profile})
+        cluster = Cluster(port=config['db_port'], auth_provider=ap, execution_profiles={'default': profile})
         session = cluster.connect()
 
         session.execute("""DROP ROLE IF EXISTS cassandra""")

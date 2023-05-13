@@ -25,6 +25,9 @@ jobs:
       -
         name: Run database
         run: docker compose -f database/docker-compose.yaml up -d
+        env:
+          IP_PORT_1: ${{ secrets.IP_PORT_1 }}
+          IP_PORT_2: ${{ secrets.IP_PORT_2 }}
       -
         name: Sleep for 120 seconds
         uses: jakejarvis/wait-action@master
