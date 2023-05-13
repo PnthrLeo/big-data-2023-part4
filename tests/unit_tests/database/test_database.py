@@ -28,7 +28,7 @@ def get_list_of_tables(db: Database) -> list[str]:
 def test_del(config):
     db = Database(config)
 
-    db.save_to_db('./data/train.csv', 'train')  
+    db.save_to_db('tests/fixtures/train.csv', 'train')  
     assert('train' in get_list_of_tables(db))
     
     db.del_from_db('train')
@@ -38,12 +38,12 @@ def test_del(config):
 def test_save_load(config):
     db = Database(config)
     
-    db.save_to_db('./data/train.csv', 'train')
-    db.load_from_db('./data/new_train.csv', 'train')
-    df = pd.read_csv('./data/train.csv')
-    new_df = pd.read_csv('./data/new_train.csv')
+    db.save_to_db('tests/fixtures/train.csv', 'train')
+    db.load_from_db('tests/fixtures/new_train.csv', 'train')
+    df = pd.read_csv('tests/fixtures/train.csv')
+    new_df = pd.read_csv('tests/fixtures/new_train.csv')
 
     db.del_from_db('train')
-    os.remove('./data/new_train.csv')
+    os.remove('tests/fixtures/new_train.csv')
     
     assert(df.equals(new_df))
