@@ -23,11 +23,19 @@ jobs:
         name: Pull with compose
         run: docker-compose pull
       -
+        name: Install python
+        uses: actions/setup-python@v4
+        with:
+            python-version: '3.9'
+      -
+        name: Setup Hashicorp Vault client
+        run: pip install vault-cli
+      -
         name: Run database
-        run: docker compose -f database/docker-compose.yaml up -d
+        run: vault-cli env --envvar kv/big_data_3/database -- docker compose -f database/docker-compose.yaml up -d
         env:
-          IP_PORT_1: ${{ secrets.IP_PORT_1 }}
-          IP_PORT_2: ${{ secrets.IP_PORT_2 }}
+          VAULT_CLI_TOKEN: ${{ secrets.VAULT_CLI_TOKEN }}
+          VAULT_CLI_URL: ${{ secrets.VAULT_CLI_URL }}
       -
         name: Sleep for 120 seconds
         uses: jakejarvis/wait-action@master
@@ -35,7 +43,7 @@ jobs:
           time: '120s'
       -
         name: Run tests
-        run: docker-compose up --abort-on-container-exit
+        run: vault-cli env --envvar kv/big_data_3/app/db -- docker compose up --abort-on-container-exit
         env:
-          PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
-          PGP_PUBLIC_KEY: ${{ secrets.PGP_PUBLIC_KEY }}
+          VAULT_CLI_TOKEN: ${{ secrets.VAULT_CLI_TOKEN }}
+          VAULT_CLI_URL: ${{ secrets.VAULT_CLI_URL }}
