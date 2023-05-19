@@ -1,8 +1,8 @@
 import argparse
-import json
 import logging
 import time
 
+import config_generator
 import pandas as pd
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster, ExecutionProfile
@@ -103,8 +103,7 @@ if __name__ == "__main__":
     parser.add_argument("--load_csv_path", default=None)
     args = parser.parse_args()
     
-    with open("database/config.json") as f:
-        config = json.load(f)
+    config = config_generator.get_db_config()
     
     db = Database(config)
     if args.delete:

@@ -7,7 +7,7 @@ services:
     volumes:
       - ./storage/node1:/var/lib/cassandra/data
     ports:
-      - ${IP_PORT_1}:9042
+      - ${DATABASE_IP_PORT_1}:9042
     environment:
       - CASSANDRA_START_RPC=true
       - CASSANDRA_CLUSTER_NAME=SeedsCluster
@@ -19,7 +19,7 @@ services:
   volumes:
       - ./storage/node2:/var/lib/cassandra/data
   ports:
-      - ${IP_PORT_2}:9042
+      - ${DATABASE_IP_PORT_2}:9042
   depends_on:
     - cas1
   environment:
