@@ -3,8 +3,6 @@ services:
     web:
         build: .
         command: bash -c "dvc pull -r origin -f &&
-                          chmod +x ./decrypt_secrets.sh &&
-                          ./decrypt_secrets.sh &&
                           pytest tests/unit_tests --html=experiments/unit_test/unit_tests_report.html &&
                           pytest tests/integration_tests --html=experiments/unit_test/integration_tests_report.html &&
                           python database/database.py --save --save_table_name train --save_csv_path data/train.csv &&
