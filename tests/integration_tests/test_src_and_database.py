@@ -3,14 +3,17 @@ import sys
 sys.path.insert(0, './database')
 sys.path.insert(0, './src')
 
-import pytest
-from classifier import Classifier
-from utils import preprocess, get_X_y
-from database import Database
 import json
-import pandas as pd
 import os
 import shutil
+
+import pandas as pd
+import pytest
+
+from classifier import Classifier
+from config_generator import get_db_config
+from database import Database
+from utils import get_X_y, preprocess
 
 
 @pytest.fixture  
@@ -22,8 +25,7 @@ def app_config():
 
 @pytest.fixture  
 def db_config():
-    with open('tests/fixtures/db_config.json') as f:
-        config = json.load(f)
+    config = get_db_config()
     return config
 
 

@@ -2,19 +2,18 @@ import sys
 
 sys.path.insert(0, './database')
 
-import json
 import os
 
 import pandas as pd
 import pytest
 
+from config_generator import get_db_config
 from database import Database
 
 
 @pytest.fixture  
 def config():
-    with open("tests/fixtures/db_config.json") as f:
-        config = json.load(f)
+    config = get_db_config()
     return config
 
 
