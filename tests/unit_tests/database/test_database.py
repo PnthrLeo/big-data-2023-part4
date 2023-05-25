@@ -3,11 +3,12 @@ import sys
 sys.path.insert(0, './database')
 
 import os
+import shutil
 
 import pandas as pd
 import pytest
+from database_config_generator import get_db_config
 
-from config_generator import get_db_config
 from database import Database
 
 
@@ -35,14 +36,18 @@ def test_del(config):
 
 
 def test_save_load(config):
+    if not os.path.exists('tests/temp'):
+        os.mkdir('tests/temp')
+    
     db = Database(config)
     
     db.save_to_db('tests/fixtures/train.csv', 'train')
-    db.load_from_db('tests/fixtures/new_train.csv', 'train')
+    db.load_from_db('tests/temp/new_train.csv', 'train')
     df = pd.read_csv('tests/fixtures/train.csv')
-    new_df = pd.read_csv('tests/fixtures/new_train.csv')
+    new_df = pd.read_csv('tests/temp/new_train.csv')
 
     db.del_from_db('train')
-    os.remove('tests/fixtures/new_train.csv')
     
     assert(df.equals(new_df))
+    
+    shutil.rmtree('tests/temp')

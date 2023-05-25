@@ -30,6 +30,12 @@ jobs:
       -
         name: Setup Hashicorp Vault client
         run: pip install vault-cli
+      - 
+        name: Run Kafka
+        run: vault-cli env --envvar kv/big_data_3/kafka -- docker compose -f kafka/docker-compose.yaml up -d
+        env:
+          VAULT_CLI_TOKEN: ${{ secrets.VAULT_CLI_TOKEN }}
+          VAULT_CLI_URL: ${{ secrets.VAULT_CLI_URL }}
       -
         name: Run database
         run: vault-cli env --envvar kv/big_data_3/database -- docker compose -f database/docker-compose.yaml up -d
