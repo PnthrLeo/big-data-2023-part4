@@ -49,7 +49,7 @@ jobs:
           time: '120s'
       -
         name: Run tests
-        run: vault-cli env --envvar kv/big_data_3/app/db -- docker compose up --abort-on-container-exit
+        run: vault-cli env --envvar kv/big_data_3/app/db --envvar kv/big_data_3/app/kafka -- docker compose up --abort-on-container-exit
         env:
           VAULT_CLI_TOKEN: ${{ secrets.VAULT_CLI_TOKEN }}
           VAULT_CLI_URL: ${{ secrets.VAULT_CLI_URL }}
