@@ -2,7 +2,7 @@ import argparse
 import logging
 import time
 
-import config_generator
+from database_config_generator import get_db_config
 import pandas as pd
 from cassandra.auth import PlainTextAuthProvider
 from cassandra.cluster import Cluster, ExecutionProfile
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     parser.add_argument("--load_csv_path", default=None)
     args = parser.parse_args()
     
-    config = config_generator.get_db_config()
+    config = get_db_config()
     
     db = Database(config)
     if args.delete:
