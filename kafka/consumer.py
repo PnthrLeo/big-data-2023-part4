@@ -18,9 +18,7 @@ class CustomConsumer(Consumer):
     def __update_cache(self, topics: list[str], timeount: float = 10.0) -> None:
         topic_metadata = self.list_topics(timeout=1.0)
         # check if topics exist
-        for topic in topics:
-            if topic_metadata.topics.get(topic) is None:
-                topics.remove(topic)
+        topics = [topic for topic in topics if topic_metadata.topics.get(topic) is not None]
         
         messages = []
         
