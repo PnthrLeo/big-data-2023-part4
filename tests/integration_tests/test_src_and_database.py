@@ -11,9 +11,8 @@ import pandas as pd
 import pytest
 
 from classifier import Classifier
-from config_generator import get_db_config
+from database_config_generator import get_db_config
 from database import Database
-from utils import get_X_y, preprocess
 
 
 @pytest.fixture  

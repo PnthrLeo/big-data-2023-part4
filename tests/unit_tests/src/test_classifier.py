@@ -4,6 +4,7 @@ sys.path.insert(0, './src')
 
 import json
 import os
+import shutil
 
 import pandas as pd
 import pytest
@@ -129,6 +130,9 @@ def test_evaluate(config):
 
 
 def test_save_load(config):
+    if not os.path.exists('tests/temp'):
+        os.mkdir('tests/temp')
+    
     config['model']['name'] = 'RandomForestClassifier'
     config['model']['hyperparameters'] = {
             'n_estimators': 100,
@@ -138,8 +142,7 @@ def test_save_load(config):
     
     train_path = 'tests/fixtures/train.csv'
     test_path = 'tests/fixtures/test.csv'
-    model_save_path = './experiments/unit_test/model.pkl'
-    os.makedirs(f"./experiments/unit_test", exist_ok=True)
+    model_save_path = 'tests/temp/model.pkl'
     
     clf = Classifier(train_path=train_path, test_path=test_path, config=config)
     clf.fit(use_validation=False)
@@ -157,3 +160,5 @@ def test_save_load(config):
     test_f1_clf2 = clf2.evaluate(X, y)
     
     assert(test_f1_clf == test_f1_clf2)
+    
+    shutil.rmtree('tests/temp')
